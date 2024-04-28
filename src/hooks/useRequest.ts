@@ -17,7 +17,7 @@ interface IOptions {
 }
 const useRequest = (
   service: (params: Record<string, string>) => Promise<unknown>,
-  options: IOptions
+  options: IOptions,
 ) => {
   const [data, setData] = useState<unknown>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,7 +37,7 @@ const useRequest = (
           setLoading(false);
         });
     },
-    [service]
+    [service],
   );
 
   const run = (runParams: Record<string, string>) => {
