@@ -26,7 +26,7 @@ const useRequest = (
     (curParams: Record<string, string>) => {
       // 请求数据
       setLoading(true);
-      service(curParams)
+      return service(curParams)
         .then((res) => {
           // 处理数据
           setLoading(false);
@@ -35,22 +35,23 @@ const useRequest = (
             options.onSuccess(res);
           }
         })
-        .catch(() => {
+        .catch((error) => {
           setLoading(false);
+          if (options.onError) {
+            options.onError(error);
+          }
         });
     },
     [service],
   );
-
-  const run = (runParams: Record<string, string>) => {
-    init(runParams);
-  };
 
   useMount(() => {
     if (!options.manual) {
       init(options.params);
     }
   });
+
+  const run = (runParams: Record<string, string>) => init(runParams);
 
   return { data, loading, run };
 };
