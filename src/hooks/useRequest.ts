@@ -31,7 +31,9 @@ const useRequest = (
           // 处理数据
           setLoading(false);
           setData(res);
-          options.onSuccess && options.onSuccess(res);
+          if (options.onSuccess) {
+            options.onSuccess(res);
+          }
         })
         .catch(() => {
           setLoading(false);
