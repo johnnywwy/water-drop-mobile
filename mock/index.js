@@ -9,28 +9,67 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { faker } from "@faker-js/faker/locale/zh_CN";
 
 const typeDefs = `#graphql
+  type UserType {
+    id: String!
+
+    """昵称"""
+    name: String!
+
+    """简介"""
+    desc: String!
+
+    """tel"""
+    tel: String!
+
+    """头像"""
+    avatar: String
+  }
+
   type Query {
-    hello: String
-    resolved: String
+    """使用 ID 查询用户"""
+    find(id: String!): UserType!
+
+    """更新用户"""
+    update(id: String!, params: UserInput!): UserType!
+  }
+
+  input UserInput {
+    """昵称"""
+    name: String!
+
+    """简介"""
+    desc: String!
+
+    """头像"""
+    avatar: String!
+  }
+
+  type Mutation {
+    """新增用户"""
+    create(params: UserInput!): Boolean!
+
+    """删除用户"""
+    delete(id: String!): Boolean!
   }
 `;
 
 const resolvers = {
-  Query: {
-    resolved: () => "Resolved",
+  UserType: {
+    name: () => faker.person.fullName(),
   },
 };
 
 const mocks = {
   Int: () => 6,
   Float: () => 22.1,
-  String: () => faker.location.city(),
+  String: () => 'hello',
 };
 
 const server = new ApolloServer({
   schema: addMocksToSchema({
     schema: makeExecutableSchema({ typeDefs, resolvers }),
     mocks,
+    preserveResolvers: true,
   }),
 });
 
