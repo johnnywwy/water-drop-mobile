@@ -9,48 +9,42 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { faker } from "@faker-js/faker/locale/zh_CN";
 
 const typeDefs = `#graphql
-  type UserType {
-    id: String!
+type UserType {
+  id: String!
 
-    """昵称"""
-    name: String!
+  """昵称"""
+  name: String!
 
-    """简介"""
-    desc: String!
+  """简介"""
+  desc: String!
 
-    """tel"""
-    tel: String!
+  """tel"""
+  tel: String!
+}
 
-    """头像"""
-    avatar: String
-  }
+type Query {
+  """使用 ID 查询用户"""
+  find(id: String!): UserType!
+}
 
-  type Query {
-    """使用 ID 查询用户"""
-    find(id: String!): UserType!
+type Mutation {
+  """新增用户"""
+  create(params: UserInput!): Boolean!
 
-    """更新用户"""
-    update(id: String!, params: UserInput!): UserType!
-  }
+  """更新用户"""
+  update(id: String!, params: UserInput!): Boolean!
 
-  input UserInput {
-    """昵称"""
-    name: String!
+  """删除用户"""
+  delete(id: String!): Boolean!
+}
 
-    """简介"""
-    desc: String!
+input UserInput {
+  """昵称"""
+  name: String!
 
-    """头像"""
-    avatar: String!
-  }
-
-  type Mutation {
-    """新增用户"""
-    create(params: UserInput!): Boolean!
-
-    """删除用户"""
-    delete(id: String!): Boolean!
-  }
+  """简介"""
+  desc: String!
+}
 `;
 
 const resolvers = {
