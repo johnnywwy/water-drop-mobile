@@ -1,6 +1,7 @@
 // import "./App.css";
 
 import { useQuery } from "@apollo/client";
+import { Button } from "antd-mobile";
 import { FIND } from "./graphql/demo";
 
 function App() {
@@ -12,6 +13,9 @@ function App() {
 
   return (
     <div>
+      <Button color="primary" fill="solid">
+        Solid
+      </Button>
       <p>loading: {`${loading}`}</p>
       <p> data: {JSON.stringify(data)}</p>
     </div>
